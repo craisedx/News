@@ -1,4 +1,7 @@
-﻿@model News.ViewModels.LoginViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model News.ViewModels.LoginViewModel
 
 @{
     Layout = null;
@@ -15,7 +18,7 @@
 <div id="signIn" class="container p-xl-3">
     <div class="row justify-content-lg-center">
         <div class="col-lg-8 text-lg-center pb-4">
-            <h2 class="h4">Вход</h2>
+            <h2 class="h4">@Localizer["LogIn"]</h2>
         </div>
     </div>
     <div class="row justify-content-lg-center">
@@ -23,15 +26,15 @@
             <form class="form-group" method="post" asp-controller="Account" asp-action="Login">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input class="form-control shadow-sm bg-white rounded-pill" asp-for="Email" placeholder="Введите логин">
+                    <input class="form-control shadow-sm bg-white rounded-pill" asp-for="Email" placeholder="@Localizer["EnterLogin"]">
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input class="form-control shadow-sm bg-white rounded-pill" asp-for="Password" placeholder="Введите пароль">
+                    <input class="form-control shadow-sm bg-white rounded-pill" asp-for="Password" placeholder="@Localizer["EnterPassword"]">
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-block rounded shadow-sm rounded-pill" style="background-color: #6e7fab">Войти</button>
+                    <button type="submit" class="btn btn-block rounded shadow-sm rounded-pill" style="background-color: #6e7fab">@Localizer["ButtonLogIn"]</button>
                 </div>
             </form>
         </div>
@@ -39,7 +42,7 @@
 </div>
 <div class="row justify-content-lg-center pt-5">
     <div class="col-lg-8 text-lg-center">
-        <h6 class="h6">Впервые на News? <a asp-controller="Account" asp-action="Register">Создайте аккаунт</a>.</h6>
+        <h6 class="h6">@Localizer["FirstTime"]? <a asp-controller="Account" asp-action="Register">@Localizer["CreateAccount"]</a>.</h6>
     </div>
 </div>
 
