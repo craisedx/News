@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using News.Models;
 using News.ViewModels;
 using System.Threading.Tasks;
@@ -9,11 +10,16 @@ namespace News.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IStringLocalizer<AccountController> localizer;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(
+            IStringLocalizer<AccountController> localizer, 
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
+            this.localizer = localizer;
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
@@ -40,7 +46,7 @@ namespace News.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "News");
                 }
 
                 foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
@@ -65,10 +71,10 @@ namespace News.Controllers
                     .PasswordSignInAsync(model.Email, model.Password, true, false);
                 if (signInResult.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "News");
                 }
 
-                ModelState.AddModelError("", "Incorrect username or password");
+                ModelState.AddModelError("", localizer["IncorrectNameOrPassword"]);
             }
 
             return View(model);
@@ -78,7 +84,7 @@ namespace News.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "News");
         }
     }
 }

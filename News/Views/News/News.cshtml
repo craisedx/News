@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model News.ViewModels.NewsViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-11 col-md-12 bg-secondary shadow p-3 mb-5 bg-white rounded m-2">
+            <div class="row justify-content-center">
+                <img class="img-fluid" style="max-width:1110px; max-height: 625px;" src=@Model.Image>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-11 col-md-12 bg-secondary shadow p-3 mb-5 bg-white rounded m-2">
+            <div class="row">
+                <div class="col-9">
+                    <h1 class="display-5">@Model.Header</h1>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="col-3 text-right">
+                        <div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Localizer["Management"]
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/News/EditNews/@Model.Id">@Localizer["Edit"]</a>
+                                    <a class="dropdown-item" href="/News/RemoveNews/@Model.Id">@Localizer["Remove"]</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <br class="breadcrumb">
+            <div>
+                <p class="text-md-left">@Model.Subtitle</p>
+            </div>
+            <br class="breadcrumb">
+            <div>
+                <p class="text-md-left">@Model.Text</p>
+            </div>
+        </div>
+    </div>
+</div>

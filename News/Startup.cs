@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,11 +9,9 @@ using News.Migrations;
 using News.Models;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using News.App_Start.Interfaces;
+using News.App_Start.Services;
+using News.ViewModels.Mappings;
 
 namespace News
 {
@@ -30,8 +27,13 @@ namespace News
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<INewsService, NewsService>();
+
+            services.AddAutoMapper(typeof(UserMappingProfile));
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews()
+                .AddDataAnnotationsLocalization()
                 .AddViewLocalization();
 
             services.AddDbContext<ApplicationContext>(
@@ -39,14 +41,8 @@ namespace News
                     options.UseSqlServer(
                         Configuration.GetConnectionString("DefaultConnection"),
                         x => x.MigrationsAssembly("News")));
-            services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                                                         "0123456789‡·‚„‰Â∏ÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ˜¯˘˙˚¸˝˛ˇ¿¡¬√ƒ≈®∆«»… ÀÃÕ" +
-                                                         "Œœ–—“”‘’÷◊ÿŸ⁄€‹›ﬁﬂ_ ";
-                options.User.RequireUniqueEmail = true;
-            })
-            .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -71,7 +67,7 @@ namespace News
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/News/Index");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -101,7 +97,7 @@ namespace News
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=News}/{action=Index}/{id?}");
             });
         }
     }
