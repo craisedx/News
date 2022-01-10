@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model IEnumerable<News.ViewModels.NewsViewModel>
+
+<div class="container">
+    <br class="breadcrumb">
+    <div id="last_add">
+        <h1 class="display-5">@Localizer["LastAdded"]</h1>
+        <br class="breadcrumb">
+        <div class="row ">
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-3 bg-secondary shadow p-3 mb-5 bg-white rounded m-2">
+                    <a href="/News/News/@item.Id">
+                        <img src=@item.Image class="img-thumbnail">
+                    </a>
+                    <a style="color:#000000; text-decoration:none" href="/News/News/@item.Id">
+                        <h3 class="display-5">@item.Header</h3>
+                    </a>
+                    <h5 class="display-5">@item.Subtitle</h5>
+                    <h5>
+                        <span class="badge badge-pill badge-success float-right">@Localizer["New"]</span>
+                    </h5>
+                </div>
+            }
+        </div>
+    </div>
+</div>

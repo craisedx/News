@@ -1,8 +1,12 @@
-﻿@model News.ViewModels.RegisterViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model News.ViewModels.RegisterViewModel
 @{
     Layout = null;
     ViewData["Title"] = "Register in News";
 }
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +18,7 @@
 <div id="signIn" class="container p-xl-3">
     <div class="row justify-content-lg-center">
         <div class="col-lg-8 text-lg-center pb-4">
-            <h2 class="h4">Регистрация</h2>
+            <h2 class="h4">@Localizer["Register"]</h2>
         </div>
     </div>
     <div class="row justify-content-lg-center">
@@ -22,20 +26,20 @@
             <form class="form-group" method="post" asp-controller="Account" asp-action="Register">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input class="form-control form-control shadow-sm bg-white rounded-pill" asp-for="Email" placeholder="Введите почту">
+                    <input class="form-control form-control shadow-sm bg-white rounded-pill" asp-for="Email" placeholder="@Localizer["EnterEmail"]">
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input class="form-control form-control shadow-sm bg-white rounded-pill" asp-for="Password" placeholder="Введите пароль">
+                    <input class="form-control form-control shadow-sm bg-white rounded-pill" asp-for="Password" placeholder="@Localizer["EnterPassword"]">
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input class="form-control form-control shadow-sm bg-white rounded-pill" asp-for="PasswordConfirm" placeholder="Повторите пароль">
+                    <input class="form-control form-control shadow-sm bg-white rounded-pill" asp-for="PasswordConfirm" placeholder="@Localizer["EnterConfimPassword"]">
                     <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                 </div>
                 <div>
                     <div class="form-group  pt-1">
-                        <button type="submit" class="btn btn-block shadow-sm rounded-pill" style="background-color: #6e7fab">Зарегистрироваться</button>
+                        <button type="submit" class="btn btn-block shadow-sm rounded-pill" style="background-color: #6e7fab">@Localizer["ButtonRegister"]</button>
                     </div>
                 </div>
             </form>
@@ -44,7 +48,7 @@
 </div>
 <div class="row justify-content-lg-center pt-5">
     <div class="col-lg-8 text-lg-center">
-        <h6 class="h6">Уже зарегистрированы? <a asp-controller="Account" asp-action="Login">Войдите в свой аккаунт</a>.</h6>
+        <h6 class="h6">@Localizer["Registered"]? <a asp-controller="Account" asp-action="Login">@Localizer["LogIn"]</a>.</h6>
     </div>
 </div>
 
